@@ -1,0 +1,13 @@
+{
+  "name": "files-system",
+  "version": "1.0.0",
+  "description": "Workspace file system manager",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "marked": "^11.0.0"
+  }
+}

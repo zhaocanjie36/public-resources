@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件系统 - Workspace</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #00ff88;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #888;
+            margin-top: 10px;
+        }
+
+        .breadcrumb span {
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .breadcrumb span:hover {
+            color: #00ff88;
+        }
+
+        .toolbar {
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .btn-delete {
+            background: #ff4444;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #cc0000;
+        }
+
+        .btn-delete:disabled {
+            background: #333;
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        .file-list {
+            background: #1a1a1a;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #2a2a2a;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .file-item:hover {
+            background: #252525;
+        }
+
+        .file-item.selected {
+            background: #1a3a2a;
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .file-icon {
+            font-size: 24px;
+            margin-right: 15px;
+            width: 30px;
+            text-align: center;
+        }
+
+        .file-info {
+            flex: 1;
+        }
+
+        .file-name {
+            font-size: 16px;
+            color: #e0e0e0;
+            margin-bottom: 4px;
+        }
+
+        .file-meta {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            background: #2a2a2a;
+            border: none;
+            border-radius: 4px;
+            color: #00ff88;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.2s;
+        }
+
+        .action-btn:hover {
+            background: #3a3a3a;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #1a1a1a;
+            border-radius: 10px;
+            max-width: 90%;
+            max-height: 90%;
+            overflow: auto;
+            padding: 30px;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .preview-content {
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        .preview-content img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .preview-content pre {
+            background: #0a0a0a;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+
+        .preview-content code {
+            background: #0a0a0a;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #888;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 60px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📁 文件系统管理</h1>
+            <div class="breadcrumb" id="breadcrumb"></div>
+        </header>
+
+        <div class="toolbar">
+            <button class="btn btn-delete" id="deleteBtn" disabled>🗑️ 删除选中</button>
+            <span id="selectionInfo" style="color: #888; margin-left: auto;"></span>
+        </div>
+
+        <div class="file-list" id="fileList">
+            <div class="loading">加载中...</div>
+        </div>
+    </div>
+
+    <div class="modal" id="previewModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closePreview()">×</button>
+            <div class="preview-content" id="previewContent"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentPath = '';
+        let selectedFiles = new Set();
+
+        async function loadFiles(path = '') {
+            currentPath = path;
+            selectedFiles.clear();
+            updateToolbar();
+
+            const fileList = document.getElementById('fileList');
+            fileList.innerHTML = '<div class="loading">加载中...</div>';
+
+            try {
+                const response = await fetch(`/api/files?path=${encodeURIComponent(path)}`);
+                const data = await response.json();
+
+                updateBreadcrumb(data.currentPath);
+
+                if (data.items.length === 0) {
+                    fileList.innerHTML = '<div class="empty">此文件夹为空</div>';
+                    return;
+                }
+
+                fileList.innerHTML = data.items.map(item => `
+                    <div class="file-item" data-path="${item.path}">
+                        <input type="checkbox" class="checkbox" onclick="toggleSelection('${item.path}', event)">
+                        <div class="file-icon">${item.isDirectory ? '📁' : getFileIcon(item.name)}</div>
+                        <div class="file-info" onclick="handleItemClick('${item.path}', ${item.isDirectory})">
+                            <div class="file-name">${item.name}</div>
+                            <div class="file-meta">
+                                ${item.isDirectory ? '文件夹' : formatSize(item.size)} · 
+                                ${new Date(item.modified).toLocaleString('zh-CN')}
+                            </div>
+                        </div>
+                        ${!item.isDirectory ? `
+                            <div class="file-actions">
+                                <button class="action-btn" onclick="previewFile('${item.path}', event)">👁️ 预览</button>
+                                <button class="action-btn" onclick="downloadFile('${item.path}', event)">⬇️ 下载</button>
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+            } catch (error) {
+                fileList.innerHTML = `<div class="empty">加载失败: ${error.message}</div>`;
+            }
+        }
+
+        function updateBreadcrumb(path) {
+            const breadcrumb = document.getElementById('breadcrumb');
+            const parts = path ? path.split('/').filter(p => p) : [];
+            
+            let html = '<span onclick="loadFiles(\'\')">🏠 workspace</span>';
+            let currentPath = '';
+            
+            parts.forEach(part => {
+                currentPath += (currentPath ? '/' : '') + part;
+                html += ` <span>›</span> <span onclick="loadFiles('${currentPath}')">${part}</span>`;
+            });
+            
+            breadcrumb.innerHTML = html;
+        }
+
+        function getFileIcon(filename) {
+            const ext = filename.split('.').pop().toLowerCase();
+            const icons = {
+                'md': '📝',
+                'txt': '📄',
+                'js': '📜',
+                'json': '📋',
+                'png': '🖼️',
+                'jpg': '🖼️',
+                'jpeg': '🖼️',
+                'gif': '🖼️',
+                'pdf': '📕',
+                'zip': '📦',
+                'tar': '📦',
+                'gz': '📦'
+            };
+            return icons[ext] || '📄';
+        }
+
+        function formatSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+
+        function handleItemClick(path, isDirectory) {
+            if (isDirectory) {
+                loadFiles(path);
+            }
+        }
+
+        function toggleSelection(path, event) {
+            event.stopPropagation();
+            const item = document.querySelector(`[data-path="${path}"]`);
+            
+            if (selectedFiles.has(path)) {
+                selectedFiles.delete(path);
+                item.classList.remove('selected');
+            } else {
+                selectedFiles.add(path);
+                item.classList.add('selected');
+            }
+            
+            updateToolbar();
+        }
+
+        function updateToolbar() {
+            const deleteBtn = document.getElementById('deleteBtn');
+            const selectionInfo = document.getElementById('selectionInfo');
+            
+            deleteBtn.disabled = selectedFiles.size === 0;
+            selectionInfo.textContent = selectedFiles.size > 0 
+                ? `已选择 ${selectedFiles.size} 项` 
+                : '';
+        }
+
+        async function previewFile(path, event) {
+            event.stopPropagation();
+            
+            const modal = document.getElementById('previewModal');
+            const content = document.getElementById('previewContent');
+            
+            content.innerHTML = '<div class="loading">加载中...</div>';
+            modal.classList.add('active');
+            
+            try {
+                const response = await fetch(`/api/file/content?path=${encodeURIComponent(path)}`);
+                const data = await response.json();
+                
+                if (data.type === 'markdown') {
+                    content.innerHTML = data.html;
+                } else {
+                    const ext = data.name.split('.').pop().toLowerCase();
+                    if (['png', 'jpg', 'jpeg', 'gif', 'webp'].includes(ext)) {
+                        content.innerHTML = `<img src="/api/file/download?path=${encodeURIComponent(path)}" alt="${data.name}">`;
+                    } else {
+                        content.innerHTML = `<pre><code>${escapeHtml(data.content)}</code></pre>`;
+                    }
+                }
+            } catch (error) {
+                content.innerHTML = `<div class="empty">预览失败: ${error.message}</div>`;
+            }
+        }
+
+        function downloadFile(path, event) {
+            event.stopPropagation();
+            window.location.href = `/api/file/download?path=${encodeURIComponent(path)}`;
+        }
+
+        function closePreview() {
+            document.getElementById('previewModal').classList.remove('active');
+        }
+
+        document.getElementById('deleteBtn').addEventListener('click', async () => {
+            if (selectedFiles.size === 0) return;
+            
+            if (!confirm(`确定要删除选中的 ${selectedFiles.size} 项吗？此操作不可恢复！`)) {
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/files', {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ paths: Array.from(selectedFiles) })
+                });
+                
+                const data = await response.json();
+                const failed = data.results.filter(r => !r.success);
+                
+                if (failed.length > 0) {
+                    alert(`删除完成，但有 ${failed.length} 项失败`);
+                }
+                
+                loadFiles(currentPath);
+            } catch (error) {
+                alert('删除失败: ' + error.message);
+            }
+        });
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Close modal on background click
+        document.getElementById('previewModal').addEventListener('click', (e) => {
+            if (e.target.id === 'previewModal') {
+                closePreview();
+            }
+        });
+
+        // Initial load
+        loadFiles();
+    </script>
+</body>
+</html>
