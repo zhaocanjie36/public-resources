@@ -36,3 +36,23 @@
   sudo route add -net 100.64.0.0/10 -interface utun4
   ```
 - **教训:** VPN 模式在网络层拦截，应用层配置（SSH config、环境变量）无法绕过
+
+### Four.meme 自主交易系统
+**完成时间:** 2026-03-04
+**项目:** Four.meme Agent 自动化交易系统
+**位置:** `/root/.openclaw/workspace/fourmeme-agent/`
+
+**核心功能:**
+- 自动余额检查（BSCScan API）
+- Agent 身份注册（EIP-8004 NFT）
+- 市场监控和多维度分析
+- 风险控制（5%单仓/20%总仓/50%止损）
+- Cron 定时任务（每小时执行）
+- 完整日志和状态管理
+
+**钱包信息:**
+- 地址: `0x334b920C32E32c3d8Dd14A05D50A36DB92cf534a`
+- 网络: BSC (BNB Smart Chain)
+- 私钥存储: `.secrets/evm-wallet.json`
+
+**当前状态:** 系统就绪，等待充值后自动启动
