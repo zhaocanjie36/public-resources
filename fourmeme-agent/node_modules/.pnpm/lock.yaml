@@ -1,0 +1,31 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      '@four-meme/four-meme-ai':
+        specifier: latest
+        version: 1.0.4
+
+packages:
+
+  '@four-meme/four-meme-ai@1.0.4':
+    resolution: {integrity: sha512-DTAXzJhkPDEB4u14oWgQiKDJyjiU2dMTUWsPdToGMBNLeUPALD7v2Ile79s6dpMh6rdOaJe8zLOeCfZFBOGouA==}
+    hasBin: true
+
+  dotenv@16.6.1:
+    resolution: {integrity: sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==}
+    engines: {node: '>=12'}
+
+snapshots:
+
+  '@four-meme/four-meme-ai@1.0.4':
+    dependencies:
+      dotenv: 16.6.1
+
+  dotenv@16.6.1: {}

@@ -1,0 +1,8 @@
+{
+  "name": "fourmeme-agent",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "@four-meme/four-meme-ai": "latest"
+  }
+}
