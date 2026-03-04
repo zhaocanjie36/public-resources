@@ -18,6 +18,12 @@
   - 发现 VPN 模式会在路由表层面拦截流量
   - 核心解决方案：修复 Tailscale 路由规则
 
+## 钱包与资产
+- **EVM 主钱包:** 已配置（2026-03-04）
+  - 存储位置：`.secrets/evm-wallet.json`
+  - 用途：Four.meme 和其他 EVM 链上操作
+  - 文档：`WALLETS.md`
+
 ## 技术知识库
 
 ### 网络与 VPN 故障排查
