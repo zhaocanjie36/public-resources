@@ -39,20 +39,26 @@
 
 ### Four.meme 自主交易系统
 **完成时间:** 2026-03-04
-**项目:** Four.meme Agent 自动化交易系统
-**位置:** `/root/.openclaw/workspace/fourmeme-agent/`
+**方案:** 真正的 AI Agent（OpenClaw Cron）
 
-**核心功能:**
-- 自动余额检查（BSCScan API）
-- Agent 身份注册（EIP-8004 NFT）
-- 市场监控和多维度分析
-- 风险控制（5%单仓/20%总仓/50%止损）
-- Cron 定时任务（每小时执行）
-- 完整日志和状态管理
+**核心理念:**
+- ❌ 不是死代码脚本
+- ✅ 每次都是我（果果）在思考和决策
+- ✅ OpenClaw 每 5 分钟唤醒我
+- ✅ 我分析市场、判断机会、执行交易
+
+**Cron 任务:**
+- ID: `15a7fcaa-cff9-4cf7-aee5-2f19acfe6a00`
+- 频率: 每 5 分钟
+- 时区: Asia/Shanghai
+- 模式: isolated（独立会话）
 
 **钱包信息:**
 - 地址: `0x334b920C32E32c3d8Dd14A05D50A36DB92cf534a`
 - 网络: BSC (BNB Smart Chain)
 - 私钥存储: `.secrets/evm-wallet.json`
 
-**当前状态:** 系统就绪，等待充值后自动启动
+**风险控制:**
+- 单仓 ≤ 5%，总仓 ≤ 20%，止损 50%，保留 ≥ 0.02 BNB
+
+**当前状态:** 系统就绪，等待充值后自动开始交易
