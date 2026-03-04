@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "type": "module",
   "dependencies": {
-    "@four-meme/four-meme-ai": "latest"
+    "@four-meme/four-meme-ai": "latest",
+    "ethers": "^6.16.0",
+    "viem": "^2.46.3"
   }
 }

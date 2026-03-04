@@ -45,3 +45,20 @@ Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'viem' imported from /root/.op
 Node.js v24.14.0
 
 [2026-03-04T11:53:19.855Z] [ERROR] Cannot proceed without Agent registration
+[2026-03-04T11:54:19.073Z] [INFO] === Four.meme Agent Starting ===
+[2026-03-04T11:54:19.530Z] [INFO] Registering Agent identity (EIP-8004)...
+[2026-03-04T11:54:19.529Z] [INFO] Current BNB balance: NaN BNB
+[2026-03-04T11:54:27.449Z] [ERROR] Command failed: 8004-register
+Error: Command failed: npx fourmeme 8004-register
+Usage: 8004-register.ts <name> [imageUrl] [description]
+  name: required. imageUrl and description are optional.
+
+[2026-03-04T11:54:27.452Z] [ERROR] Agent registration failed: Command failed: npx fourmeme 8004-register
+Usage: 8004-register.ts <name> [imageUrl] [description]
+  name: required. imageUrl and description are optional.
+
+[2026-03-04T11:54:27.452Z] [ERROR] Cannot proceed without Agent registration
+[2026-03-04T11:55:00.693Z] [INFO] === Four.meme Agent Starting ===
+[2026-03-04T11:55:01.307Z] [WARN] Balance check failed: NOTOK
+[2026-03-04T11:55:01.315Z] [WARN] Insufficient balance: 0 BNB. Need at least 0.02 BNB
+[2026-03-04T11:55:01.316Z] [INFO] Waiting for funding...

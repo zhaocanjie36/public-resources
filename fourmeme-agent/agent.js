@@ -87,6 +87,10 @@ async function checkBalance() {
       'https://api.bscscan.com/api?module=account&action=balance&address=0x334b920C32E32c3d8Dd14A05D50A36DB92cf534a&tag=latest'
     );
     const data = await response.json();
+    if (data.status !== '1' || !data.result) {
+      log(`Balance check failed: ${data.message || 'Unknown error'}`, 'WARN');
+      return 0;
+    }
     const bnbBalance = parseFloat(data.result) / 1e18;
     log(`Current BNB balance: ${bnbBalance.toFixed(6)} BNB`);
     return bnbBalance;
@@ -105,7 +109,10 @@ async function registerAgent(state) {
   
   try {
     log('Registering Agent identity (EIP-8004)...');
-    const result = await runFourmeme('8004-register');
+    const agentName = 'GuoGuoTrader';
+    const agentImage = 'https://static.four.meme/market/fc6c4c92-63a3-4034-bc27-355ea380a6795959172881106751506.png';
+    const agentDesc = 'Autonomous trading agent managed by Guo Guo';
+    const result = await runFourmeme(`8004-register "${agentName}" "${agentImage}" "${agentDesc}"`);
     log(`Agent registration result: ${result}`);
     state.agentRegistered = true;
     await saveState(state);
