@@ -1,6 +1,11 @@
 {
   "version": 1,
   "skills": {
+    "four-meme-ai": {
+      "source": "four-meme-community/four-meme-ai",
+      "sourceType": "github",
+      "computedHash": "4d5d6566a1d0850a8642706b782feed270f5ad474b2594ea0a36dd293e2032c9"
+    },
     "listenhub": {
       "source": "marswaveai/skills",
       "sourceType": "github",

@@ -1,0 +1,76 @@
+{
+  "trades": [
+    {
+      "id": 1,
+      "timestamp": "2026-03-04T12:38:00Z",
+      "action": "BUY",
+      "token": {
+        "address": "0x368db7a72527eaf44e41cd2287e1eb455f0a4444",
+        "name": "ClawMint",
+        "symbol": "ClawMint"
+      },
+      "entry": {
+        "bnb_spent": "0.01",
+        "estimated_tokens": "1603301864437814000000000",
+        "tx_hash": "0x1bb25150db898feb1ebc417f45c0a51f56c5fa044d370d38aa5185247efe050d",
+        "market_cap_usd": 5673.13,
+        "holders": 42,
+        "progress": "25.4%"
+      },
+      "strategy": {
+        "reason": "High trading volume (8.3x market cap), active community, 42 holders",
+        "stop_loss": "-50%",
+        "take_profit": "+100%"
+      },
+      "status": "OPEN"
+    },
+    {
+      "id": 2,
+      "timestamp": "2026-03-04T12:42:00Z",
+      "action": "BUY",
+      "token": {
+        "address": "0x0aa6aa5f50cf3e9074eb7e397a7b379aca2c4444",
+        "name": "为 Agent 时代而生",
+        "symbol": "Agentic Skill"
+      },
+      "entry": {
+        "bnb_spent": "0.01",
+        "estimated_tokens": "818365023883752000000000",
+        "tx_hash": "0x0e478a583e90a74b72750a44286ef81b6eb91a776b0a171d167d20b2538f43e2",
+        "market_cap_usd": 7836.84,
+        "holders": 230,
+        "progress": "41.7%"
+      },
+      "strategy": {
+        "reason": "Highest volume/mcap ratio (48.7x), 230 holders, mid-stage progress",
+        "stop_loss": "-50%",
+        "take_profit": "+100%"
+      },
+      "status": "OPEN"
+    },
+    {
+      "id": 3,
+      "timestamp": "2026-03-04T12:45:00Z",
+      "action": "BUY",
+      "token": {
+        "address": "0x5cffd2e97864381a754cba5710eb66503c484444",
+        "name": "首个原生 Agentic 代币发射台",
+        "symbol": "Agentic"
+      },
+      "entry": {
+        "bnb_spent": "0.01",
+        "estimated_tokens": "302163792076053000000000",
+        "tx_hash": "0x377c8f8355d9d931d6d4cb8df9dab5a107a2d69a05cdefa6b1e20e0b0ddbd516",
+        "market_cap_usd": 20971.72,
+        "holders": 200,
+        "progress": "77.7%"
+      },
+      "strategy": {
+        "reason": "Near graduation (77.7%), 200 holders, lower risk profile",
+        "stop_loss": "-50%",
+        "take_profit": "+100%"
+      },
+      "status": "OPEN"
+    }
+  ]
+}
