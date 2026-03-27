@@ -1,0 +1,26 @@
+--- baiding-tokens-admin/frontend/src/pages/Licenses.jsx	2024-03-25 19:10:00.000000000 -0400
++++ baiding-tokens-admin/frontend/src/pages/Licenses.jsx	2024-03-25 19:12:00.000000000 -0400
+@@ -210,7 +210,7 @@
+       render: (time, record) => {
+         if (editingExpireTimeId === record.id) {
+           return (
+-            <Space.Compact style={{ width: '100%' }}>
++            <Space.Compact style={{ width: '100%', alignItems: 'center' }}>
+               <DatePicker
+                 showTime
+                 value={editingExpireTimeValue}
+@@ -220,12 +220,14 @@
+               />
+               <Button
+                 type="primary"
+                 icon={<CheckOutlined />}
+                 onClick={() => handleSaveExpireTime(record.id)}
+-                size="small"
+               />
+               <Button
+                 icon={<CloseOutlined />}
+                 onClick={handleCancelEditExpireTime}
+-                size="small"
+               />
+             </Space.Compact>
+           )
